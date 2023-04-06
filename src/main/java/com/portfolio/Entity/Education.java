@@ -30,7 +30,7 @@ public class Education implements Serializable {
     private boolean done;
 
     @ManyToOne
-    @JoinColumn(name = "image_id", columnDefinition = "id")
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image img;
 
     @JsonIgnore

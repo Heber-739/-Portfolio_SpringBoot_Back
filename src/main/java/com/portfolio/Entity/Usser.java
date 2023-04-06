@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "usser")
 public class Usser implements Serializable {
 
     @Id
@@ -44,7 +44,7 @@ public class Usser implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "usser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Education>  = new HashSet<>();
+    private Set<Education> educations = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
