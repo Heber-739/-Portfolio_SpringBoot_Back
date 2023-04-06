@@ -12,34 +12,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "hard_skill")
-public class HardSkill implements Serializable {
+@Table(name = "soft_skill")
+public class SoftSkill implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", columnDefinition = "VARCHAR(100)")
+    @Column(name = "name", columnDefinition = "VARCHAR(150)")
     private String name;
 
-    @Column(name = "percentage", columnDefinition = "TINYINT")
-    private int percentage;
-
-    @ManyToOne
-    @JoinColumn(name = "img_id", referencedColumnName = "id", columnDefinition = "INT")
-    private Image img;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_username", referencedColumnName = "username", columnDefinition = "VARCHAR(16)")
     private User user;
 
-    public HardSkill() {
+    public SoftSkill() {
     }
 
-    public HardSkill(String name, int percentage) {
+    public SoftSkill(String name, String description) {
         this.name = name;
-        this.percentage = percentage;
+        this.description = description;
     }
 
     public int getId() {
@@ -58,20 +54,12 @@ public class HardSkill implements Serializable {
         this.name = name;
     }
 
-    public int getPercentage() {
-        return percentage;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPercentage(int percentage) {
-        this.percentage = percentage;
-    }
-
-    public Image getImg() {
-        return img;
-    }
-
-    public void setImg(Image img) {
-        this.img = img;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public User getUser() {

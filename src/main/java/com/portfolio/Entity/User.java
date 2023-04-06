@@ -1,11 +1,19 @@
 package com.portfolio.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "user")
 public class User implements Serializable {
 
     @Id
@@ -29,5 +37,13 @@ public class User implements Serializable {
 
     @Column(name = "github", columnDefinition = "VARCHAR(225)")
     private String github;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<HardSkill> hskills = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<SoftSkill> sskills = new HashSet<>();
 
 }

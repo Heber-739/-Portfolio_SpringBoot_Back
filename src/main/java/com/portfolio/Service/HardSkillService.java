@@ -15,7 +15,7 @@ public class HardSkillService {
     HardSkillRepository hsR;
 
     public List<HardSkill> getByUser(String username) {
-        return hsR.findAllByUsersUsername(username);
+        return hsR.findAllByUserUsername(username);
     }
 
     public void save(HardSkill hs) {
