@@ -11,7 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +32,11 @@ public class Image implements Serializable {
 
     @Column(name = "blobImg", columnDefinition = "MEDIUMBLOB")
     private byte[] blobImg;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "usser_username", referencedColumnName = "username")
+    private Usser usser;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "img", cascade = CascadeType.ALL)
@@ -74,6 +81,22 @@ public class Image implements Serializable {
 
     public void setBlobImg(byte[] blobImg) {
         this.blobImg = blobImg;
+    }
+
+    public Usser getUsser() {
+        return usser;
+    }
+
+    public void setUsser(Usser usser) {
+        this.usser = usser;
+    }
+
+    public Set<HardSkill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<HardSkill> skills) {
+        this.skills = skills;
     }
 
 }

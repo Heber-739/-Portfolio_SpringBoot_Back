@@ -27,8 +27,8 @@ public class Job implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_username", referencedColumnName = "username", columnDefinition = "VARCHAR(16)")
-    private User user;
+    @JoinColumn(name = "usser_username", referencedColumnName = "username", columnDefinition = "VARCHAR(16)")
+    private Usser usser;
 
     public Job() {
     }
@@ -62,12 +62,12 @@ public class Job implements Serializable {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
+    public Usser getUsser() {
+        return usser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsser(Usser user) {
+        this.usser = user;
     }
 
 }

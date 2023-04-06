@@ -10,5 +10,5 @@ public interface SoftSkillRepository extends JpaRepository<SoftSkill, Integer> {
 
     public boolean existsByName(String name);
 
-    public List<SoftSkill> findAllByUserUsername(String username);
+    public List<SoftSkill> findAllByUsserUsername(String username);
 }

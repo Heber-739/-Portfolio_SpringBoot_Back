@@ -10,11 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class Usser implements Serializable {
 
     @Id
     @Column(name = "username", columnDefinition = "VARCHAR(16)")
@@ -37,6 +38,13 @@ public class User implements Serializable {
 
     @Column(name = "github", columnDefinition = "VARCHAR(225)")
     private String github;
+
+    @OneToOne(mappedBy = "usser")
+    private Image img;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Education>  = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

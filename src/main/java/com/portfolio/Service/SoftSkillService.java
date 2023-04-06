@@ -14,8 +14,8 @@ public class SoftSkillService {
     @Autowired
     SoftSkillRepository ssRepository;
 
-    public List<SoftSkill> findAllByUsersUsername(String username) {
-        return ssRepository.findAllByUserUsername(username);
+    public List<SoftSkill> findAllByUsserUsername(String username) {
+        return ssRepository.findAllByUsserUsername(username);
     }
 
     public void save(SoftSkill softSkill) {

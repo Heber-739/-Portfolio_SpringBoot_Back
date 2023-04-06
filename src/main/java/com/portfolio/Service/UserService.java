@@ -1,6 +1,6 @@
 package com.portfolio.Service;
 
-import com.portfolio.Entity.User;
+import com.portfolio.Entity.Usser;
 import com.portfolio.Repository.UserRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,11 @@ public class UserService {
     @Autowired
     UserRepository userR;
 
-    public List<User> getUsers() {
+    public List<Usser> getUsers() {
         return userR.findAll();
     }
 
-    public void saveUser(User user) {
+    public void saveUser(Usser user) {
         userR.save(user);
     }
 
@@ -26,7 +26,7 @@ public class UserService {
         userR.deleteById(id);
     }
 
-    public User findUser(String username) {
+    public Usser findUser(String username) {
         return userR.findByUsername(username).orElse(null);
     }
 
@@ -42,11 +42,11 @@ public class UserService {
         return userR.existsByGithub(github);
     }
 
-    public User findByLinkedin(String linkedin) {
+    public Usser findByLinkedin(String linkedin) {
         return userR.findByLinkedin(linkedin).orElse(null);
     }
 
-    public User findByGithub(String github) {
+    public Usser findByGithub(String github) {
         return userR.findByGithub(github).orElse(null);
     }
 

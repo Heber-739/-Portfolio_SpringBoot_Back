@@ -14,8 +14,8 @@ public class JobService {
     @Autowired
     JobRepository jobRepository;
 
-    public List<Job> findAllByUserUsername(String username) {
-        return jobRepository.findAllByUserUsername(username);
+    public List<Job> findAllByUsserUsername(String username) {
+        return jobRepository.findAllByUsserUsername(username);
     }
 
     public void save(Job workExperience) {

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HardSkillRepository extends JpaRepository<HardSkill, Integer> {
 
-    public List<HardSkill> findAllByUserUsername(String username);
+    public List<HardSkill> findAllByUsserUsername(String username);
 }
