@@ -58,4 +58,113 @@ public class Usser implements Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Job> jobs = new HashSet<>();
 
+    public Usser() {
+    }
+
+    public Usser(String username, String name, String surname, int age, String description, String linkedin, String github) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.description = description;
+        this.linkedin = linkedin;
+        this.github = github;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLinkedin() {
+        return linkedin;
+    }
+
+    public void setLinkedin(String linkedin) {
+        this.linkedin = linkedin;
+    }
+
+    public String getGithub() {
+        return github;
+    }
+
+    public void setGithub(String github) {
+        this.github = github;
+    }
+
+    public Image getImg() {
+        return img;
+    }
+
+    public void setImg(Image img) {
+        this.img = img;
+    }
+
+    public Set<Education> getEducations() {
+        return educations;
+    }
+
+    public void setEducations(Set<Education> educations) {
+        this.educations = educations;
+    }
+
+    public Set<HardSkill> getHskills() {
+        return hskills;
+    }
+
+    public void setHskills(Set<HardSkill> hskills) {
+        this.hskills = hskills;
+    }
+
+    public Set<SoftSkill> getSskills() {
+        return sskills;
+    }
+
+    public void setSskills(Set<SoftSkill> sskills) {
+        this.sskills = sskills;
+    }
+
+    public Set<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
+    }
+
 }
