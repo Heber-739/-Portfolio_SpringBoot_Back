@@ -12,11 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = {"https://heberportfolio.web.app", "*"})
@@ -36,7 +37,7 @@ public class UsserController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/get/{id}")
-    public Usser getUsser(@RequestParam("id") String id) {
+    public Usser getUsser(@PathVariable("id") String id) {
         return userService.findUsser(id);
     }
 
@@ -50,18 +51,27 @@ public class UsserController {
     @PostMapping("/create")
     public ResponseEntity<?> createUsser(@RequestBody UsserDTO usser) {
         if (userService.existsByGithub(usser.getGithub())) {
-            return new ResponseEntity<>(new Message("El github ingresado ya esta registrado"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El github ingresado ya esta registrado"), HttpStatus.BAD_REQUEST);
         }
         if (userService.existsByLinkedin(usser.getLinkedin())) {
-            return new ResponseEntity<>(new Message("El linkedin ingresado ya esta registrado"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El linkedin ingresado ya esta registrado"), HttpStatus.BAD_REQUEST);
         }
         Image img = new Image(usser.getImg().getName(), usser.getImg().getType(), usser.getImg().getBlobImg());
         imageService.save(img);
 
-        Usser user = new Usser(usser.getUsername(), usser.getName(), usser.getSurname(), usser.getAge(), usser.getDescription(), usser.getLinkedin(), usser.getGithub());
+        Usser user = new Usser(usser.getUsername(), usser.getName(),
+                usser.getSurname(), usser.getAge(), usser.getDescription(),
+                usser.getLinkedin(), usser.getGithub());
         user.setImg(img);
         userService.saveUsser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity(user, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Message> deleteUsser(@PathVariable("id") String id) {
+        userService.deleteUsser(id);
+        return new ResponseEntity(new Message("Usuario eliminado"), HttpStatus.OK);
     }
 
 }
