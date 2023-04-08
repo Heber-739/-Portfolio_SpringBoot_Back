@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,10 +52,10 @@ public class UsserController {
     @PostMapping("/create")
     public ResponseEntity<?> createUsser(@RequestBody UsserDTO usser) {
         if (userService.existsByGithub(usser.getGithub())) {
-            return new ResponseEntity(new Message("El github ingresado ya esta registrado"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El Github ingresado ya se encuentra en uso"), HttpStatus.BAD_REQUEST);
         }
         if (userService.existsByLinkedin(usser.getLinkedin())) {
-            return new ResponseEntity(new Message("El linkedin ingresado ya esta registrado"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("El linkedin ingresado ya se encuentra en uso"), HttpStatus.BAD_REQUEST);
         }
         Image img = new Image(usser.getImg().getName(), usser.getImg().getType(), usser.getImg().getBlobImg());
         imageService.save(img);
@@ -72,6 +73,37 @@ public class UsserController {
     public ResponseEntity<Message> deleteUsser(@PathVariable("id") String id) {
         userService.deleteUsser(id);
         return new ResponseEntity(new Message("Usuario eliminado"), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PutMapping("/edith")
+    public ResponseEntity<?> edithUsser(@RequestBody UsserDTO usser) {
+        if (userService.existsByGithub(usser.getGithub())) {
+            Usser usergh = userService.findByGithub(usser.getGithub());
+            if (usser.getUsername() != usergh.getUsername()) {
+                return new ResponseEntity(new Message("El Github ingresado ya se encuentra en uso"), HttpStatus.BAD_REQUEST);
+            }
+        }
+        if (userService.existsByLinkedin(usser.getLinkedin())) {
+            Usser userlk = userService.findByLinkedin(usser.getLinkedin());
+            if (usser.getUsername() != userlk.getUsername()) {
+                return new ResponseEntity(new Message("El Linkedin ingresado ya se encuentra en uso"), HttpStatus.BAD_REQUEST);
+            }
+        }
+        Usser user = userService.findUsser(usser.getUsername());
+        if (usser.getImg().getId() < 1) {
+            Image img = new Image(usser.getImg().getName(), usser.getImg().getType(), usser.getImg().getBlobImg());
+            imageService.save(img);
+            user.setImg(img);
+        }
+        user.setName(usser.getName());
+        user.setSurname(usser.getSurname());
+        user.setAge(usser.getAge());
+        user.setDescription(usser.getDescription());
+        user.setLinkedin(usser.getLinkedin());
+        user.setGithub(usser.getGithub());
+        userService.saveUsser(user);
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 
 }
