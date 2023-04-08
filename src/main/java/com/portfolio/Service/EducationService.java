@@ -14,6 +14,10 @@ public class EducationService {
     @Autowired
     EducationRepository edRepository;
 
+    public List<Education> getAll() {
+        return edRepository.findAll();
+    }
+
     public List<Education> findAllByUserUsername(String username) {
         return edRepository.findAllByUsserUsername(username);
     }

@@ -24,13 +24,8 @@ public class MailController {
         if (StringUtils.isEmpty(mail.getName()) || StringUtils.isEmpty(mail.getMail()) || StringUtils.isEmpty(mail.getMessage())) {
             return new ResponseEntity(new Message("Revise el campo vacío y vuelva a intentarlo"), HttpStatus.BAD_REQUEST);
         }
-        try {
-            String message = "Nombre: " + mail.getName() + "\n\nMail: " + mail.getMail() + "\n\nMensaje:\n\n              " + mail.getMessage();
-            mailService.sendMail(mail.getMail(), message);
-            return new ResponseEntity(new Message("Mail enviado correctamente"), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(new Message("Ocurrió un problema al tratar de enviar el mail, por favor intentar de nuevo. \n\nError: " + e), HttpStatus.BAD_REQUEST);
-        }
+        String message = "Nombre: " + mail.getName() + "\n\nMail: " + mail.getMail() + "\n\nMensaje:\n\n              " + mail.getMessage();
+        mailService.sendMail(mail.getMail(), message);
+        return new ResponseEntity(new Message("Mail enviado correctamente"), HttpStatus.OK);
     }
-
 }

@@ -163,4 +163,16 @@ public class Usser implements Serializable {
         this.jobs = jobs;
     }
 
+    public void addEducation(Education ed) {
+        this.educations.add(ed);
+        ed.setUsser(this);
+    }
+
+    public void removeEducation(int ed_id) {
+        Education ed = this.educations.stream().filter(t -> t.getId() == ed_id).findFirst().orElse(null);
+        if (ed != null) {
+            this.educations.remove(ed);
+        }
+    }
+
 }
