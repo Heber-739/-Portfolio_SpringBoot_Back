@@ -105,5 +105,4 @@ public class UsserController {
         userService.saveUsser(user);
         return new ResponseEntity(user, HttpStatus.OK);
     }
-
 }
