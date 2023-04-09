@@ -14,7 +14,7 @@ public class HardSkillService {
     @Autowired
     HardSkillRepository hsR;
 
-    public List<HardSkill> getByUsser(String username) {
+    public List<HardSkill> findAllByUsserUsername(String username) {
         return hsR.findAllByUsserUsername(username);
     }
 
