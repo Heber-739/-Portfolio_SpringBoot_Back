@@ -16,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,4 +72,40 @@ public class HardSkillController {
         user.addHardSkill(hs);
         return new ResponseEntity(hs, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('USER')")
+    @PutMapping("/update/{user_id}")
+    public ResponseEntity<?> update(@PathVariable("user_id") String username, @RequestBody HardSkillDTO hsDto) {
+        if (StringUtils.isBlank(hsDto.getName())) {
+            return new ResponseEntity(new Message("Revise el campo en blanco"), HttpStatus.BAD_REQUEST);
+        }
+        List<String> hss = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getName()).collect(Collectors.toList());
+        if (hss.contains(hsDto.getName())) {
+            return new ResponseEntity(new Message("El usuario ya posee el skill"), HttpStatus.BAD_REQUEST);
+        }
+        HardSkill hs = hsService.findByName(hsDto.getName());
+        if (imageService.existsByName(hsDto.getImg().getName())) {
+            Image img = imageService.findByName(hsDto.getImg().getName());
+            hs.setImg(img);
+        } else {
+            Image new_img = new Image(hsDto.getImg().getName(), hsDto.getImg().getType(), hsDto.getImg().getBlobImg());
+            hs.setImg(new_img);
+        }
+        hs.setName(hsDto.getName());
+        hs.setPercentage(hsDto.getPercentage());
+        hsService.save(hs);
+        return new ResponseEntity(hs, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping("/update/{user_id}/{hs_id}")
+    public ResponseEntity<Message> delete(@PathVariable("user_id") String username, @PathVariable("hs_id") int id) {
+        List<Integer> ids = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getId()).collect(Collectors.toList());
+        if (!ids.contains(id)) {
+            return new ResponseEntity(new Message("No se encuentra el skill a eliminar"), HttpStatus.NOT_FOUND);
+        }
+        hsService.delete(id);
+        return new ResponseEntity(new Message("Hard Skill eliminado"), HttpStatus.OK);
+    }
+
 }
