@@ -18,6 +18,10 @@ public class SoftSkillService {
         return ssRepository.findAllByUsserUsername(username);
     }
 
+    public SoftSkill findById(int id) {
+        return ssRepository.findById(id).orElse(null);
+    }
+
     public void save(SoftSkill softSkill) {
         ssRepository.save(softSkill);
     }

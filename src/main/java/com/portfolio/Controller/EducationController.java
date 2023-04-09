@@ -60,7 +60,7 @@ public class EducationController {
     @PostMapping("/create/{user_id}")
     public ResponseEntity<?> create(@PathVariable("user_id") String username, @RequestBody EducationDTO ed) {
         if (StringUtils.isBlank(ed.getName()) || StringUtils.isBlank(ed.getLink())) {
-            return new ResponseEntity(new Message("Revise el campo vacío y vuelva a intentarlo"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
         List<String> edus = edService.findAllByUserUsername(username).stream().map(edu -> edu.getName()).collect(Collectors.toList());
         if (edus.contains(ed.getName())) {
@@ -91,7 +91,7 @@ public class EducationController {
     @PutMapping("/update/{user_id}/{ed_id}")
     public ResponseEntity<?> update(@PathVariable("user_id") String username, @RequestBody EducationDTO edDto) {
         if (StringUtils.isBlank(edDto.getName()) || StringUtils.isBlank(edDto.getLink())) {
-            return new ResponseEntity(new Message("Revise el campo en blanco"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
         if (!userService.existsByUsername(username)) {
             return new ResponseEntity(new Message("La educación ingresada no se puede vincular a un usuario inexistente"), HttpStatus.BAD_REQUEST);

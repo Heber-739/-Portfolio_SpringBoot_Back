@@ -53,7 +53,7 @@ public class HardSkillController {
     @PostMapping("/create/{user_id}")
     public ResponseEntity<?> create(@PathVariable("user_id") String username, @RequestBody HardSkillDTO hsDto) {
         if (StringUtils.isBlank(hsDto.getName())) {
-            return new ResponseEntity(new Message("Revise el campo en blanco"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
         List<String> hss_name = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getName()).collect(Collectors.toList());
         if (hss_name.contains(hsDto.getName())) {
@@ -77,7 +77,7 @@ public class HardSkillController {
     @PutMapping("/update/{user_id}")
     public ResponseEntity<?> update(@PathVariable("user_id") String username, @RequestBody HardSkillDTO hsDto) {
         if (StringUtils.isBlank(hsDto.getName())) {
-            return new ResponseEntity(new Message("Revise el campo en blanco"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
         List<String> hss = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getName()).collect(Collectors.toList());
         if (hss.contains(hsDto.getName())) {
