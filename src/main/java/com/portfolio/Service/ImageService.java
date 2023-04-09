@@ -21,6 +21,10 @@ public class ImageService {
         return irepository.findByName(name).orElse(null);
     }
 
+    public boolean existsByName(String name) {
+        return irepository.existsByName(name);
+    }
+
     public void save(Image img) {
         irepository.save(img);
     }

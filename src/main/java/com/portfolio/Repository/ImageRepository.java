@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ImageRepository extends JpaRepository<Image, Integer> {
 
     public Optional<Image> findByName(String name);
+
+    public boolean existsByName(String name);
 }
