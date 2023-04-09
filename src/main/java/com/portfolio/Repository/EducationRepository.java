@@ -14,4 +14,6 @@ public interface EducationRepository extends JpaRepository<Education, Integer> {
     public Optional<Education> findByLink(String link);
 
     public boolean existsByLink(String link);
+
+    public boolean existsById(int id);
 }

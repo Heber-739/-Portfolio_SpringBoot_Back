@@ -21,7 +21,7 @@ public class MailController {
 
     @PostMapping("/sendMail")
     public ResponseEntity<Message> sendMail(@RequestBody MailDTO mail) {
-        if (StringUtils.isEmpty(mail.getName()) || StringUtils.isEmpty(mail.getMail()) || StringUtils.isEmpty(mail.getMessage())) {
+        if (StringUtils.isBlank(mail.getName()) || StringUtils.isBlank(mail.getMail()) || StringUtils.isEmpty(mail.getMessage())) {
             return new ResponseEntity(new Message("Revise el campo vacío y vuelva a intentarlo"), HttpStatus.BAD_REQUEST);
         }
         String message = "Nombre: " + mail.getName() + "\n\nMail: " + mail.getMail() + "\n\nMensaje:\n\n              " + mail.getMessage();

@@ -26,6 +26,14 @@ public class EducationService {
         return edRepository.findByLink(link).orElse(null);
     }
 
+    public boolean existsById(int id) {
+        return edRepository.existsById(id);
+    }
+
+    public Education findById(int id) {
+        return edRepository.findById(id).orElse(null);
+    }
+
     public boolean existsByLink(String link) {
         return edRepository.existsByLink(link);
     }

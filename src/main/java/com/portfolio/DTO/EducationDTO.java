@@ -4,23 +4,32 @@ import javax.validation.constraints.NotBlank;
 
 public class EducationDTO {
 
+    private int id;
     @NotBlank
     private String name;
     @NotBlank
     private String link;
     @NotBlank
-    private boolean finish;
+    private boolean done;
     @NotBlank
     private ImageDTO img;
 
     public EducationDTO() {
     }
 
-    public EducationDTO(String name, String link, boolean finish, ImageDTO img) {
+    public EducationDTO(String name, String link, boolean done, ImageDTO img) {
         this.name = name;
         this.link = link;
-        this.finish = finish;
+        this.done = done;
         this.img = img;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -39,12 +48,12 @@ public class EducationDTO {
         this.link = link;
     }
 
-    public boolean isFinish() {
-        return finish;
+    public boolean isDone() {
+        return done;
     }
 
-    public void setFinish(boolean finish) {
-        this.finish = finish;
+    public void setDone(boolean done) {
+        this.done = done;
     }
 
     public ImageDTO getImg() {
