@@ -4,27 +4,25 @@ import javax.validation.constraints.NotBlank;
 
 public class HardSkillDTO {
 
-    @NotBlank
-    private String name;
+    private int id;
     @NotBlank
     private int percentage;
     @NotBlank
-    private ImageDTO img;
+    private TagDTO tagDTO;
 
     public HardSkillDTO() {
     }
 
-    public HardSkillDTO(String name, int percentage) {
-        this.name = name;
+    public HardSkillDTO(int percentage) {
         this.percentage = percentage;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getPercentage() {
@@ -35,12 +33,12 @@ public class HardSkillDTO {
         this.percentage = percentage;
     }
 
-    public ImageDTO getImg() {
-        return img;
+    public TagDTO getTagDTO() {
+        return tagDTO;
     }
 
-    public void setImg(ImageDTO img) {
-        this.img = img;
+    public void setTagDTO(TagDTO tagDTO) {
+        this.tagDTO = tagDTO;
     }
 
 }

@@ -2,6 +2,9 @@ package com.portfolio.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -32,6 +36,9 @@ public class Education implements Serializable {
     @ManyToOne
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image img;
+
+    @ManyToMany(mappedBy = "educations", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Tag> tags = new HashSet<>();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -93,6 +100,27 @@ public class Education implements Serializable {
 
     public void setUsser(Usser usser) {
         this.usser = usser;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+        tag.getEducations().add(this);
+    }
+
+    public void removeTag(String name) {
+        Tag tag = this.tags.stream().filter(t -> t.getName() == name).findFirst().orElse(null);
+        if (tag != null) {
+            this.tags.remove(tag);
+            tag.getEducations().remove(this);
+        }
     }
 
 }

@@ -3,10 +3,12 @@ package com.portfolio.Controller;
 import com.portfolio.DTO.HardSkillDTO;
 import com.portfolio.Entity.HardSkill;
 import com.portfolio.Entity.Image;
+import com.portfolio.Entity.Tag;
 import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
 import com.portfolio.Service.HardSkillService;
 import com.portfolio.Service.ImageService;
+import com.portfolio.Service.TagService;
 import com.portfolio.Service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +38,9 @@ public class HardSkillController {
     HardSkillService hsService;
 
     @Autowired
-    ImageService imageService;
+    TagService tagService;
+    @Autowired
+    ImageService imgService;
 
     @RequestMapping("/get")
     public ResponseEntity<List<HardSkill>> getDefault() {
@@ -52,21 +56,25 @@ public class HardSkillController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/create/{user_id}")
     public ResponseEntity<?> create(@PathVariable("user_id") String username, @RequestBody HardSkillDTO hsDto) {
-        if (StringUtils.isBlank(hsDto.getName())) {
+        if (StringUtils.isBlank(hsDto.getTagDTO().getName())) {
             return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
-        List<String> hss_name = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getName()).collect(Collectors.toList());
-        if (hss_name.contains(hsDto.getName())) {
+        List<String> hss_name = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getTag().getName()).collect(Collectors.toList());
+        if (hss_name.contains(hsDto.getTagDTO().getName())) {
             return new ResponseEntity(new Message("El usuario ya posee este item"), HttpStatus.BAD_REQUEST);
         }
         Usser user = userService.findUsser(username);
-        HardSkill hs = new HardSkill(hsDto.getName(), hsDto.getPercentage());
-        if (imageService.existsByName(hsDto.getImg().getName())) {
-            Image img = imageService.findByName(hsDto.getImg().getName());
-            hs.setImg(img);
+        HardSkill hs = new HardSkill(hsDto.getPercentage());
+
+        if (tagService.existsByName(hsDto.getTagDTO().getName())) {
+            Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
+            hs.setTag(tag);
         } else {
-            Image new_img = new Image(hsDto.getImg().getName(), hsDto.getImg().getType(), hsDto.getImg().getBlobImg());
-            hs.setImg(new_img);
+            Image new_img = new Image(hsDto.getTagDTO().getName(), hsDto.getTagDTO().getImageDTO().getType(), hsDto.getTagDTO().getImageDTO().getBlobImg());
+            imgService.save(new_img);
+            Tag new_tag = new Tag(hsDto.getTagDTO().getName(), new_img);
+            tagService.save(new_tag);
+            hs.setTag(new_tag);
         }
         hsService.save(hs);
         user.addHardSkill(hs);
@@ -76,33 +84,35 @@ public class HardSkillController {
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/update/{user_id}")
     public ResponseEntity<?> update(@PathVariable("user_id") String username, @RequestBody HardSkillDTO hsDto) {
-        if (StringUtils.isBlank(hsDto.getName())) {
+        if (StringUtils.isBlank(hsDto.getTagDTO().getName())) {
             return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
-        List<String> hss = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getName()).collect(Collectors.toList());
-        if (hss.contains(hsDto.getName())) {
+        List<String> hss = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getTag().getName()).collect(Collectors.toList());
+        if (hss.contains(hsDto.getTagDTO().getName())) {
             return new ResponseEntity(new Message("El usuario ya posee el skill"), HttpStatus.BAD_REQUEST);
         }
-        HardSkill hs = hsService.findByName(hsDto.getName());
-        if (imageService.existsByName(hsDto.getImg().getName())) {
-            Image img = imageService.findByName(hsDto.getImg().getName());
-            hs.setImg(img);
+        HardSkill hs = hsService.findByName(hsDto.getTagDTO().getName());
+        if (tagService.existsByName(hsDto.getTagDTO().getName())) {
+            Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
+            hs.setTag(tag);
         } else {
-            Image new_img = new Image(hsDto.getImg().getName(), hsDto.getImg().getType(), hsDto.getImg().getBlobImg());
-            hs.setImg(new_img);
+            Image new_img = new Image(hsDto.getTagDTO().getImageDTO().getName(), hsDto.getTagDTO().getImageDTO().getType(), hsDto.getTagDTO().getImageDTO().getBlobImg());
+            imgService.save(new_img);
+            Tag newTag = new Tag(hsDto.getTagDTO().getName(), new_img);
+            tagService.save(newTag);
+            hs.setTag(newTag);
         }
-        hs.setName(hsDto.getName());
         hs.setPercentage(hsDto.getPercentage());
         hsService.save(hs);
         return new ResponseEntity(hs, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('USER')")
-    @DeleteMapping("/update/{user_id}/{hs_id}")
+    @DeleteMapping("/delete/{user_id}/{hs_id}")
     public ResponseEntity<Message> delete(@PathVariable("user_id") String username, @PathVariable("hs_id") int id) {
         List<Integer> ids = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getId()).collect(Collectors.toList());
         if (!ids.contains(id)) {
-            return new ResponseEntity(new Message("No se encuentra el skill a eliminar"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("No se puede eliminar el item"), HttpStatus.NOT_FOUND);
         }
         hsService.delete(id);
         return new ResponseEntity(new Message("Hard Skill eliminado"), HttpStatus.OK);

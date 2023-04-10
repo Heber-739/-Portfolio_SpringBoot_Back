@@ -8,12 +8,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,30 +21,28 @@ import javax.persistence.Table;
 public class Tag implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "name", columnDefinition = "VARCHAR(150)")
+    @Column(name = "name", columnDefinition = "VARCHAR(150)", unique = true)
     private String name;
+
+    @OneToOne
+    @JoinColumn(name = "img_id", referencedColumnName = "id", columnDefinition = "INT")
+    private Image img;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "tag_education", joinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "education_id", referencedColumnName = "id"))
     private Set<Education> educations = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<HardSkill> skills = new HashSet<>();
+
     public Tag() {
     }
 
-    public Tag(String name) {
+    public Tag(String name, Image img) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.img = img;
     }
 
     public String getName() {
@@ -61,6 +59,22 @@ public class Tag implements Serializable {
 
     public void setEducations(Set<Education> educations) {
         this.educations = educations;
+    }
+
+    public Image getImg() {
+        return img;
+    }
+
+    public void setImg(Image img) {
+        this.img = img;
+    }
+
+    public Set<HardSkill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<HardSkill> skills) {
+        this.skills = skills;
     }
 
 }

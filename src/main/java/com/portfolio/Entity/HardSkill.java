@@ -19,15 +19,12 @@ public class HardSkill implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", columnDefinition = "VARCHAR(100)")
-    private String name;
-
     @Column(name = "percentage", columnDefinition = "TINYINT")
     private int percentage;
 
     @ManyToOne
-    @JoinColumn(name = "img_id", referencedColumnName = "id", columnDefinition = "INT")
-    private Image img;
+    @JoinColumn(name = "tag_name", referencedColumnName = "name", columnDefinition = "VARCHAR(150)")
+    private Tag tag;
 
     @JsonIgnore
     @ManyToOne
@@ -37,21 +34,12 @@ public class HardSkill implements Serializable {
     public HardSkill() {
     }
 
-    public HardSkill(String name, int percentage) {
-        this.name = name;
+    public HardSkill(int percentage) {
         this.percentage = percentage;
     }
 
     public int getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getPercentage() {
@@ -62,12 +50,12 @@ public class HardSkill implements Serializable {
         this.percentage = percentage;
     }
 
-    public Image getImg() {
-        return img;
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setImg(Image img) {
-        this.img = img;
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 
     public Usser getUsser() {
