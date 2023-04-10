@@ -177,4 +177,9 @@ public class Usser implements Serializable {
         this.sskills.add(ss);
         ss.setUsser(this);
     }
+
+    public void addJob(Job job) {
+        this.jobs.add(job);
+        job.setUsser(this);
+    }
 }

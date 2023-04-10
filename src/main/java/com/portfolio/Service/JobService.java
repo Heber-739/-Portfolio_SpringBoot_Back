@@ -18,6 +18,10 @@ public class JobService {
         return jobRepository.findAllByUsserUsername(username);
     }
 
+    public Job findById(int id) {
+        return jobRepository.findById(id).orElse(null);
+    }
+
     public void save(Job workExperience) {
         jobRepository.save(workExperience);
     }
