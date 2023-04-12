@@ -30,8 +30,8 @@ public class Image implements Serializable {
     @Column(name = "type", columnDefinition = "VARCHAR(25)")
     private String type;
 
-    @Column(name = "blobImg", columnDefinition = "MEDIUMBLOB")
-    private byte[] blobImg;
+    @Column(name = "data_img", columnDefinition = "MEDIUMBLOB")
+    private byte[] data_img;
 
     @JsonIgnore
     @OneToOne
@@ -45,7 +45,7 @@ public class Image implements Serializable {
     public Image(String name, String type, byte[] blobImg) {
         this.name = name;
         this.type = type;
-        this.blobImg = blobImg;
+        this.data_img = blobImg;
     }
 
     public Image() {
@@ -75,12 +75,12 @@ public class Image implements Serializable {
         this.type = type;
     }
 
-    public byte[] getBlobImg() {
-        return blobImg;
+    public byte[] getData_img() {
+        return data_img;
     }
 
-    public void setBlobImg(byte[] blobImg) {
-        this.blobImg = blobImg;
+    public void setData_img(byte[] data_img) {
+        this.data_img = data_img;
     }
 
     public Usser getUsser() {

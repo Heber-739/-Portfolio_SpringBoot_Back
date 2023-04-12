@@ -25,29 +25,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UsserController {
-
+    
     @Autowired
     UsserService userService;
     @Autowired
     ImageService imageService;
-
+    
     @GetMapping("/get")
     public Usser getDefaultUsser() {
         return userService.findUsser("Heber739");
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/get/{id}")
     public Usser getUsser(@PathVariable("id") String id) {
         return userService.findUsser(id);
     }
-
+    
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getAll")
     public List<Usser> getAllUsser() {
         return userService.getAllUssers();
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/create")
     public ResponseEntity<?> createUsser(@RequestBody UsserDTO usser) {
@@ -57,24 +57,29 @@ public class UsserController {
         if (userService.existsByLinkedin(usser.getLinkedin())) {
             return new ResponseEntity(new Message("El linkedin ingresado ya se encuentra en uso"), HttpStatus.BAD_REQUEST);
         }
-        Image img = new Image(usser.getImg().getName(), usser.getImg().getType(), usser.getImg().getBlobImg());
-        imageService.save(img);
-
-        Usser user = new Usser(usser.getUsername(), usser.getName(),
-                usser.getSurname(), usser.getAge(), usser.getDescription(),
-                usser.getLinkedin(), usser.getGithub());
-        user.setImg(img);
-        userService.saveUsser(user);
-        return new ResponseEntity(user, HttpStatus.OK);
+        try {
+            Image img = new Image(usser.getImg().getName(), usser.getImg().getType(), usser.getImg().getBlobImg());
+            
+            Usser user = new Usser(usser.getUsername(), usser.getName(),
+                    usser.getSurname(), usser.getAge(), usser.getDescription(),
+                    usser.getLinkedin(), usser.getGithub());
+            userService.saveUsser(user);
+            img.setUsser(user);
+            imageService.save(img);
+            return new ResponseEntity(user, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.print("Error: " + e);
+            return new ResponseEntity(new Message("Error"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
+    
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Message> deleteUsser(@PathVariable("id") String id) {
         userService.deleteUsser(id);
         return new ResponseEntity(new Message("Usuario eliminado"), HttpStatus.OK);
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/edith")
     public ResponseEntity<?> edithUsser(@RequestBody UsserDTO usser) {

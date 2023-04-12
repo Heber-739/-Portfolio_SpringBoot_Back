@@ -39,7 +39,7 @@ public class Usser implements Serializable {
     @Column(name = "github", columnDefinition = "VARCHAR(225)")
     private String github;
 
-    @OneToOne(mappedBy = "usser")
+    @OneToOne(mappedBy = "usser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Image img;
 
     @JsonIgnore
