@@ -9,7 +9,7 @@ import com.portfolio.Security.Message;
 import com.portfolio.Service.HardSkillService;
 import com.portfolio.Service.ImageService;
 import com.portfolio.Service.TagService;
-import com.portfolio.Service.UserService;
+import com.portfolio.Service.UsserService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HardSkillController {
 
     @Autowired
-    UserService userService;
+    UsserService userService;
 
     @Autowired
     HardSkillService hsService;
@@ -91,7 +91,7 @@ public class HardSkillController {
         if (hss.contains(hsDto.getTagDTO().getName())) {
             return new ResponseEntity(new Message("El usuario ya posee el skill"), HttpStatus.BAD_REQUEST);
         }
-        HardSkill hs = hsService.findByName(hsDto.getTagDTO().getName());
+        HardSkill hs = hsService.findById(hsDto.getId());
         if (tagService.existsByName(hsDto.getTagDTO().getName())) {
             Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
             hs.setTag(tag);

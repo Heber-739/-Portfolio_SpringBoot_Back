@@ -30,11 +30,11 @@ public class Tag implements Serializable {
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "tag_education", joinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "education_id", referencedColumnName = "id"))
+    @JoinTable(name = "tag_education", joinColumns = @JoinColumn(name = "tag_name", referencedColumnName = "name"), inverseJoinColumns = @JoinColumn(name = "education_id", referencedColumnName = "id"))
     private Set<Education> educations = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<HardSkill> skills = new HashSet<>();
 
     public Tag() {

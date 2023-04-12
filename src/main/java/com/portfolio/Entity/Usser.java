@@ -47,15 +47,15 @@ public class Usser implements Serializable {
     private Set<Education> educations = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<HardSkill> hskills = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<SoftSkill> sskills = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Job> jobs = new HashSet<>();
 
     public Usser() {

@@ -7,7 +7,7 @@ import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
 import com.portfolio.Service.EducationService;
 import com.portfolio.Service.ImageService;
-import com.portfolio.Service.UserService;
+import com.portfolio.Service.UsserService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +37,7 @@ public class EducationController {
     ImageService imageService;
 
     @Autowired
-    UserService userService;
+    UsserService userService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("getAll")

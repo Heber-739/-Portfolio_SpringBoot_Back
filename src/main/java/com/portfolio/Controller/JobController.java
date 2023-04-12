@@ -5,7 +5,7 @@ import com.portfolio.Entity.Job;
 import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
 import com.portfolio.Service.JobService;
-import com.portfolio.Service.UserService;
+import com.portfolio.Service.UsserService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +31,7 @@ public class JobController {
     @Autowired
     JobService jobService;
     @Autowired
-    UserService userService;
+    UsserService userService;
 
     @GetMapping("/get")
     public ResponseEntity<List<Job>> getDefault() {

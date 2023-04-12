@@ -5,7 +5,7 @@ import com.portfolio.Entity.Image;
 import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
 import com.portfolio.Service.ImageService;
-import com.portfolio.Service.UserService;
+import com.portfolio.Service.UsserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsserController {
 
     @Autowired
-    UserService userService;
+    UsserService userService;
     @Autowired
     ImageService imageService;
 

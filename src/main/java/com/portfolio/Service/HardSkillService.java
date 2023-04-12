@@ -18,8 +18,8 @@ public class HardSkillService {
         return hsR.findAllByUsserUsername(username);
     }
 
-    public HardSkill findByName(String name) {
-        return hsR.findByName(name).orElse(null);
+    public HardSkill findById(int id) {
+        return hsR.findById(id).orElse(null);
     }
 
     public void save(HardSkill hs) {
@@ -28,10 +28,6 @@ public class HardSkillService {
 
     public void delete(int id) {
         hsR.deleteById(id);
-    }
-
-    public boolean existsByName(String name) {
-        return hsR.existsByName(name);
     }
 
 }
