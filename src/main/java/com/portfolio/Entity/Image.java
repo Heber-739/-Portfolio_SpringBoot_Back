@@ -30,7 +30,7 @@ public class Image implements Serializable {
     @Column(name = "type", columnDefinition = "VARCHAR(25)")
     private String type;
 
-    @Column(name = "data_img", columnDefinition = "MEDIUMTEXT")
+    @Column(name = "base64", columnDefinition = "MEDIUMTEXT")
     private String base64;
 
     @JsonIgnore
