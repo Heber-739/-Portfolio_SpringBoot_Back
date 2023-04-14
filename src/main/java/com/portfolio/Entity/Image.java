@@ -30,8 +30,8 @@ public class Image implements Serializable {
     @Column(name = "type", columnDefinition = "VARCHAR(25)")
     private String type;
 
-    @Column(name = "data_img", columnDefinition = "MEDIUMBLOB")
-    private byte[] data_img;
+    @Column(name = "data_img", columnDefinition = "MEDIUMTEXT")
+    private String base64;
 
     @JsonIgnore
     @OneToOne
@@ -42,10 +42,10 @@ public class Image implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "img", cascade = CascadeType.ALL)
     private Set<HardSkill> skills = new HashSet<>();
 
-    public Image(String name, String type, byte[] base64) {
+    public Image(String name, String type, String base64) {
         this.name = name;
         this.type = type;
-        this.data_img = base64;
+        this.base64 = base64;
     }
 
     public Image() {
@@ -75,12 +75,12 @@ public class Image implements Serializable {
         this.type = type;
     }
 
-    public byte[] getData_img() {
-        return data_img;
+    public String getBase64() {
+        return base64;
     }
 
-    public void setData_img(byte[] base64) {
-        this.data_img = base64;
+    public void setBase64(String base64) {
+        this.base64 = base64;
     }
 
     public Usser getUsser() {

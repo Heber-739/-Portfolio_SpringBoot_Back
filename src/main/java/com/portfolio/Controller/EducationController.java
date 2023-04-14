@@ -100,9 +100,7 @@ public class EducationController {
             return new ResponseEntity(new Message("El usuario ya posee esta educación"), HttpStatus.BAD_REQUEST);
         }
         Education ed = edService.findById(edDto.getId());
-        if (edDto.getImg().getId() < 1) {
-            ed.setImg(imageService.save(edDto.getImg()));
-        }
+        ed.setImg(imageService.save(edDto.getImg()));
         ed.setName(edDto.getName());
         ed.setName(edDto.getLink());
         ed.setDone(edDto.isDone());

@@ -84,7 +84,7 @@ public class TagController {
         if (tags.contains(tagDto.getName())) {
             return new ResponseEntity(new Message("La educación ya posee este contenido"), HttpStatus.BAD_REQUEST);
         }
-        Tag tag = new Tag(tagDto.getName(), imgService.save(tagDto.getImageDTO()));
+        Tag tag = new Tag(tagDto.getName(), imgService.save(tagDto.getImg()));
         tagService.save(tag);
         Education ed = edService.findById(tagDto.getEd_id());
         this.add(ed.getId(), tag.getName());

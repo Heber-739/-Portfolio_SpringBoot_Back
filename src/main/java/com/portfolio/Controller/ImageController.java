@@ -1,6 +1,6 @@
 package com.portfolio.Controller;
 
-import com.portfolio.DTO.ImageDTO;
+import com.portfolio.Entity.Image;
 import com.portfolio.Service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class ImageController {
     ImageService imageService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody ImageDTO img) {
+    public ResponseEntity<?> create(@RequestBody Image img) {
         return new ResponseEntity(imageService.save(img), HttpStatus.OK);
     }
 

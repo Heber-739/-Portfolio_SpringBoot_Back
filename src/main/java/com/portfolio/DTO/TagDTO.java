@@ -1,5 +1,6 @@
 package com.portfolio.DTO;
 
+import com.portfolio.Entity.Image;
 import javax.validation.constraints.NotNull;
 
 public class TagDTO {
@@ -7,28 +8,28 @@ public class TagDTO {
     @NotNull
     private String Name;
     @NotNull
-    private ImageDTO imageDTO;
+    private Image img;
 
     private int ed_id;
 
     public TagDTO() {
     }
 
-    public TagDTO(String Name, ImageDTO dto) {
+    public TagDTO(String Name, Image dto) {
         this.Name = Name;
-        this.imageDTO = dto;
+        this.img = dto;
     }
 
     public String getName() {
         return Name;
     }
 
-    public ImageDTO getImageDTO() {
-        return imageDTO;
+    public Image getImg() {
+        return img;
     }
 
-    public void setImageDTO(ImageDTO imageDTO) {
-        this.imageDTO = imageDTO;
+    public void setImg(Image img) {
+        this.img = img;
     }
 
     public int getEd_id() {

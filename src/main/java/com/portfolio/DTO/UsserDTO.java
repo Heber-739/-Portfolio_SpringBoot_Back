@@ -1,5 +1,6 @@
 package com.portfolio.DTO;
 
+import com.portfolio.Entity.Image;
 import javax.validation.constraints.NotNull;
 
 public class UsserDTO {
@@ -19,12 +20,12 @@ public class UsserDTO {
     @NotNull
     private String github;
     @NotNull
-    private ImageDTO img;
+    private Image img;
 
     public UsserDTO() {
     }
 
-    public UsserDTO(String username, String name, String surname, int age, String description, String linkedin, String github, ImageDTO img) {
+    public UsserDTO(String username, String name, String surname, int age, String description, String linkedin, String github, Image img) {
         this.username = username;
         this.name = name;
         this.surname = surname;
@@ -91,11 +92,11 @@ public class UsserDTO {
         this.github = github;
     }
 
-    public ImageDTO getImg() {
+    public Image getImg() {
         return img;
     }
 
-    public void setImg(ImageDTO img) {
+    public void setImg(Image img) {
         this.img = img;
     }
 
