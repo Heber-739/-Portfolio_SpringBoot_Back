@@ -42,10 +42,10 @@ public class Image implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "img", cascade = CascadeType.ALL)
     private Set<HardSkill> skills = new HashSet<>();
 
-    public Image(String name, String type, byte[] blobImg) {
+    public Image(String name, String type, byte[] base64) {
         this.name = name;
         this.type = type;
-        this.data_img = blobImg;
+        this.data_img = base64;
     }
 
     public Image() {
@@ -79,8 +79,8 @@ public class Image implements Serializable {
         return data_img;
     }
 
-    public void setData_img(byte[] data_img) {
-        this.data_img = data_img;
+    public void setData_img(byte[] base64) {
+        this.data_img = base64;
     }
 
     public Usser getUsser() {

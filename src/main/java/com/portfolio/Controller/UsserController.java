@@ -1,7 +1,6 @@
 package com.portfolio.Controller;
 
 import com.portfolio.DTO.UsserDTO;
-import com.portfolio.Entity.Image;
 import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
 import com.portfolio.Service.ImageService;
@@ -25,29 +24,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UsserController {
-    
+
     @Autowired
     UsserService userService;
     @Autowired
     ImageService imageService;
-    
+
     @GetMapping("/get")
     public Usser getDefaultUsser() {
         return userService.findUsser("Heber739");
     }
-    
+
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/get/{id}")
     public Usser getUsser(@PathVariable("id") String id) {
         return userService.findUsser(id);
     }
-    
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getAll")
     public List<Usser> getAllUsser() {
         return userService.getAllUssers();
     }
-    
+
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/create")
     public ResponseEntity<?> createUsser(@RequestBody UsserDTO usser) {
@@ -57,29 +56,21 @@ public class UsserController {
         if (userService.existsByLinkedin(usser.getLinkedin())) {
             return new ResponseEntity(new Message("El linkedin ingresado ya se encuentra en uso"), HttpStatus.BAD_REQUEST);
         }
-        try {
-            Image img = new Image(usser.getImg().getName(), usser.getImg().getType(), usser.getImg().getBlobImg());
-            
-            Usser user = new Usser(usser.getUsername(), usser.getName(),
-                    usser.getSurname(), usser.getAge(), usser.getDescription(),
-                    usser.getLinkedin(), usser.getGithub());
-            userService.saveUsser(user);
-            img.setUsser(user);
-            imageService.save(img);
-            return new ResponseEntity(user, HttpStatus.OK);
-        } catch (Exception e) {
-            System.err.print("Error: " + e);
-            return new ResponseEntity(new Message("Error"), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Usser user = new Usser(usser.getUsername(), usser.getName(),
+                usser.getSurname(), usser.getAge(), usser.getDescription(),
+                usser.getLinkedin(), usser.getGithub());
+        user.setImg(imageService.save(usser.getImg()));
+        userService.saveUsser(user);
+        return new ResponseEntity(user, HttpStatus.OK);
     }
-    
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Message> deleteUsser(@PathVariable("id") String id) {
         userService.deleteUsser(id);
         return new ResponseEntity(new Message("Usuario eliminado"), HttpStatus.OK);
     }
-    
+
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/edith")
     public ResponseEntity<?> edithUsser(@RequestBody UsserDTO usser) {
@@ -97,9 +88,7 @@ public class UsserController {
         }
         Usser user = userService.findUsser(usser.getUsername());
         if (usser.getImg().getId() < 1) {
-            Image img = new Image(usser.getImg().getName(), usser.getImg().getType(), usser.getImg().getBlobImg());
-            imageService.save(img);
-            user.setImg(img);
+            user.setImg(imageService.save(usser.getImg()));
         }
         user.setName(usser.getName());
         user.setSurname(usser.getSurname());
@@ -109,5 +98,6 @@ public class UsserController {
         user.setGithub(usser.getGithub());
         userService.saveUsser(user);
         return new ResponseEntity(user, HttpStatus.OK);
+
     }
 }

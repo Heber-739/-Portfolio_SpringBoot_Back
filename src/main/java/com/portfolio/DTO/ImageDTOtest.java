@@ -10,12 +10,12 @@ public class ImageDTOtest {
     @NotNull
     private String type;
     @NotNull
-    private String data;
+    private byte[] data;
 
     public ImageDTOtest() {
     }
 
-    public ImageDTOtest(String name, String type, String data) {
+    public ImageDTOtest(String name, String type, byte[] data) {
         this.name = name;
         this.type = type;
         this.data = data;
@@ -45,11 +45,11 @@ public class ImageDTOtest {
         this.type = type;
     }
 
-    public String getData() {
+    public byte[] getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(byte[] data) {
         this.data = data;
     }
 

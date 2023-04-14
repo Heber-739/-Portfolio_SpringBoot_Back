@@ -2,7 +2,6 @@ package com.portfolio.Controller;
 
 import com.portfolio.DTO.HardSkillDTO;
 import com.portfolio.Entity.HardSkill;
-import com.portfolio.Entity.Image;
 import com.portfolio.Entity.Tag;
 import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
@@ -70,15 +69,14 @@ public class HardSkillController {
             Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
             hs.setTag(tag);
         } else {
-            Image new_img = new Image(hsDto.getTagDTO().getName(), hsDto.getTagDTO().getImageDTO().getType(), hsDto.getTagDTO().getImageDTO().getBlobImg());
-            imgService.save(new_img);
-            Tag new_tag = new Tag(hsDto.getTagDTO().getName(), new_img);
+            Tag new_tag = new Tag(hsDto.getTagDTO().getName(), imgService.save(hsDto.getTagDTO().getImageDTO()));
             tagService.save(new_tag);
             hs.setTag(new_tag);
         }
         hsService.save(hs);
         user.addHardSkill(hs);
         return new ResponseEntity(hs, HttpStatus.OK);
+
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -96,15 +94,14 @@ public class HardSkillController {
             Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
             hs.setTag(tag);
         } else {
-            Image new_img = new Image(hsDto.getTagDTO().getImageDTO().getName(), hsDto.getTagDTO().getImageDTO().getType(), hsDto.getTagDTO().getImageDTO().getBlobImg());
-            imgService.save(new_img);
-            Tag newTag = new Tag(hsDto.getTagDTO().getName(), new_img);
+            Tag newTag = new Tag(hsDto.getTagDTO().getName(), imgService.save(hsDto.getTagDTO().getImageDTO()));
             tagService.save(newTag);
             hs.setTag(newTag);
         }
         hs.setPercentage(hsDto.getPercentage());
         hsService.save(hs);
         return new ResponseEntity(hs, HttpStatus.OK);
+
     }
 
     @PreAuthorize("hasRole('USER')")

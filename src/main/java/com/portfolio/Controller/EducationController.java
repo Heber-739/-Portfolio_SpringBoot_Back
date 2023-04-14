@@ -2,12 +2,12 @@ package com.portfolio.Controller;
 
 import com.portfolio.DTO.EducationDTO;
 import com.portfolio.Entity.Education;
-import com.portfolio.Entity.Image;
 import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
 import com.portfolio.Service.EducationService;
 import com.portfolio.Service.ImageService;
 import com.portfolio.Service.UsserService;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
@@ -66,14 +66,13 @@ public class EducationController {
         if (edus.contains(ed.getName())) {
             return new ResponseEntity(new Message("El usuario ya posee la educación"), HttpStatus.BAD_REQUEST);
         }
-        Image img = new Image(ed.getImg().getName(), ed.getImg().getType(), ed.getImg().getBlobImg());
-        imageService.save(img);
         Usser user = userService.findUsser(username);
         Education education = new Education(ed.getName(), ed.getLink(), ed.isDone());
-        education.setImg(img);
+        education.setImg(imageService.save(ed.getImg()));
         edService.save(education);
         user.addEducation(education);
         return new ResponseEntity(education, HttpStatus.OK);
+
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -89,7 +88,7 @@ public class EducationController {
 
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/update/{user_id}/{ed_id}")
-    public ResponseEntity<?> update(@PathVariable("user_id") String username, @RequestBody EducationDTO edDto) {
+    public ResponseEntity<?> update(@PathVariable("user_id") String username, @RequestBody EducationDTO edDto) throws UnsupportedEncodingException {
         if (StringUtils.isBlank(edDto.getName()) || StringUtils.isBlank(edDto.getLink())) {
             return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
@@ -102,15 +101,13 @@ public class EducationController {
         }
         Education ed = edService.findById(edDto.getId());
         if (edDto.getImg().getId() < 1) {
-            Image img = new Image(edDto.getImg().getName(), edDto.getImg().getType(), edDto.getImg().getBlobImg());
-            imageService.save(img);
-            ed.setImg(img);
+            ed.setImg(imageService.save(edDto.getImg()));
         }
         ed.setName(edDto.getName());
         ed.setName(edDto.getLink());
         ed.setDone(edDto.isDone());
         edService.save(ed);
         return new ResponseEntity(ed, HttpStatus.OK);
-    }
 
+    }
 }

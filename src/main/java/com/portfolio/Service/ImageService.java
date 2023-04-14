@@ -1,5 +1,6 @@
 package com.portfolio.Service;
 
+import com.portfolio.DTO.ImageDTO;
 import com.portfolio.Entity.Image;
 import com.portfolio.Repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,9 @@ public class ImageService {
         return irepository.existsByName(name);
     }
 
-    public void save(Image img) {
-        irepository.save(img);
+    public Image save(ImageDTO img) {
+        Image im = new Image(img.getName(), img.getType(), img.getData_img());
+        return irepository.save(im);
     }
 
     public void delete(int id) {

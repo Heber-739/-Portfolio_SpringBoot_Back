@@ -10,15 +10,15 @@ public class ImageDTO {
     @NotNull
     private String type;
     @NotNull
-    private byte[] blobImg;
+    private byte[] data_img;
 
     public ImageDTO() {
     }
 
-    public ImageDTO(String name, String type, byte[] blobImg) {
+    public ImageDTO(String name, String type, byte[] base64) {
         this.name = name;
         this.type = type;
-        this.blobImg = blobImg;
+        this.data_img = base64;
     }
 
     public int getId() {
@@ -45,12 +45,12 @@ public class ImageDTO {
         this.type = type;
     }
 
-    public byte[] getBlobImg() {
-        return blobImg;
+    public byte[] getData_img() {
+        return data_img;
     }
 
-    public void setBlobImg(byte[] blobImg) {
-        this.blobImg = blobImg;
+    public void setData_img(byte[] data_img) {
+        this.data_img = data_img;
     }
 
 }
