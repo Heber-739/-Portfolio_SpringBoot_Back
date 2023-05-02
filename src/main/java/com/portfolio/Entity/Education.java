@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,8 +34,7 @@ public class Education implements Serializable {
     @Column(name = "done", columnDefinition = "BIT")
     private boolean done;
 
-    @ManyToOne
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
     private Image img;
 
     @ManyToMany(mappedBy = "educations", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -30,6 +30,11 @@ public class Image implements Serializable {
 
     @JsonIgnore
     @OneToOne
+    @JoinColumn(name = "education_id", referencedColumnName = "id")
+    private Education education;
+
+    @JsonIgnore
+    @OneToOne
     @JoinColumn(name = "usser_username", referencedColumnName = "username")
     private Usser usser;
 
@@ -44,10 +49,6 @@ public class Image implements Serializable {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -74,6 +75,14 @@ public class Image implements Serializable {
         this.base64 = base64;
     }
 
+    public Education getEducation() {
+        return education;
+    }
+
+    public void setEducation(Education education) {
+        this.education = education;
+    }
+
     public Usser getUsser() {
         return usser;
     }
@@ -81,4 +90,5 @@ public class Image implements Serializable {
     public void setUsser(Usser usser) {
         this.usser = usser;
     }
+
 }
