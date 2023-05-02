@@ -23,10 +23,6 @@ public class HardSkill implements Serializable {
     private int percentage;
 
     @ManyToOne
-    @JoinColumn(name = "img_id", referencedColumnName = "id", columnDefinition = "INT")
-    private Image img;
-
-    @ManyToOne
     @JoinColumn(name = "tag_name", referencedColumnName = "name", columnDefinition = "VARCHAR(150)")
     private Tag tag;
 
@@ -68,14 +64,6 @@ public class HardSkill implements Serializable {
 
     public void setUsser(Usser user) {
         this.usser = user;
-    }
-
-    public Image getImg() {
-        return img;
-    }
-
-    public void setImg(Image img) {
-        this.img = img;
     }
 
 }

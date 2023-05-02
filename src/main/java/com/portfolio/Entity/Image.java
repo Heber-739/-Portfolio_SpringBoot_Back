@@ -2,17 +2,12 @@ package com.portfolio.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -37,10 +32,6 @@ public class Image implements Serializable {
     @OneToOne
     @JoinColumn(name = "usser_username", referencedColumnName = "username")
     private Usser usser;
-
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "img", cascade = CascadeType.ALL)
-    private Set<HardSkill> skills = new HashSet<>();
 
     public Image(String name, String type, String base64) {
         this.name = name;
@@ -90,13 +81,4 @@ public class Image implements Serializable {
     public void setUsser(Usser usser) {
         this.usser = usser;
     }
-
-    public Set<HardSkill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(Set<HardSkill> skills) {
-        this.skills = skills;
-    }
-
 }
