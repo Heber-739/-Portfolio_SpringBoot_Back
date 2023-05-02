@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -37,7 +38,8 @@ public class Education implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Image img;
 
-    @ManyToMany(mappedBy = "educations", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "education_tag", joinColumns = @JoinColumn(name = "education_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_name", referencedColumnName = "name"))
     private Set<Tag> tags = new HashSet<>();
 
     @JsonIgnore
