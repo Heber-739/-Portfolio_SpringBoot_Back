@@ -98,6 +98,5 @@ public class UsserController {
         user.setGithub(usser.getGithub());
         userService.saveUsser(user);
         return new ResponseEntity(user, HttpStatus.OK);
-
     }
 }

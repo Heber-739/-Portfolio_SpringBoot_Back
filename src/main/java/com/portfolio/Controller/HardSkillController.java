@@ -69,12 +69,12 @@ public class HardSkillController {
             Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
             hs.setTag(tag);
         } else {
-            Tag new_tag = new Tag(hsDto.getTagDTO().getName(), imgService.save(hsDto.getTagDTO().getImg()));
+            Tag new_tag = new Tag(hsDto.getTagDTO().getName(), hsDto.getTagDTO().getImg());
             tagService.save(new_tag);
             hs.setTag(new_tag);
         }
-        hsService.save(hs);
         user.addHardSkill(hs);
+        userService.saveUsser(user);
         return new ResponseEntity(hs, HttpStatus.OK);
 
     }
@@ -94,7 +94,7 @@ public class HardSkillController {
             Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
             hs.setTag(tag);
         } else {
-            Tag newTag = new Tag(hsDto.getTagDTO().getName(), imgService.save(hsDto.getTagDTO().getImg()));
+            Tag newTag = new Tag(hsDto.getTagDTO().getName(), hsDto.getTagDTO().getImg());
             tagService.save(newTag);
             hs.setTag(newTag);
         }

@@ -29,33 +29,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/education")
 public class EducationController {
-
+    
     @Autowired
     EducationService edService;
-
+    
     @Autowired
     ImageService imageService;
-
+    
     @Autowired
     UsserService userService;
-
+    
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("getAll")
     public ResponseEntity<List<Education>> getAll() {
         return new ResponseEntity(edService.getAll(), HttpStatus.OK);
     }
-
+    
     @GetMapping("/get")
     public ResponseEntity<List<Education>> getDefault() {
         return new ResponseEntity(edService.findAllByUserUsername("Heber739"), HttpStatus.OK);
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/get/{id}")
     public ResponseEntity<List<Education>> getByUsername(@PathVariable("id") String username) {
         return new ResponseEntity(edService.findAllByUserUsername(username), HttpStatus.OK);
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/create/{user_id}")
     public ResponseEntity<?> create(@PathVariable("user_id") String username, @RequestBody EducationDTO ed) {
@@ -68,13 +68,13 @@ public class EducationController {
         }
         Usser user = userService.findUsser(username);
         Education education = new Education(ed.getName(), ed.getLink(), ed.isDone());
-        education.setImg(imageService.save(ed.getImg()));
-        edService.save(education);
+        education.setImg(ed.getImg());
         user.addEducation(education);
+        userService.saveUsser(user);
         return new ResponseEntity(education, HttpStatus.OK);
-
+        
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/delete/{user_id}/{ed_id}")
     public ResponseEntity<Message> delete(@PathVariable("user_id") String username, @PathVariable("ed_id") int id) {
@@ -85,7 +85,7 @@ public class EducationController {
         edService.delete(id);
         return new ResponseEntity(new Message("Educación eliminada correctamente"), HttpStatus.OK);
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/update/{user_id}/{ed_id}")
     public ResponseEntity<?> update(@PathVariable("user_id") String username, @RequestBody EducationDTO edDto) throws UnsupportedEncodingException {
@@ -106,6 +106,6 @@ public class EducationController {
         ed.setDone(edDto.isDone());
         edService.save(ed);
         return new ResponseEntity(ed, HttpStatus.OK);
-
+        
     }
 }

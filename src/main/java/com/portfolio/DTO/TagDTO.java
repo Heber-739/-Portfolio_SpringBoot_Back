@@ -15,9 +15,9 @@ public class TagDTO {
     public TagDTO() {
     }
 
-    public TagDTO(String Name, Image dto) {
+    public TagDTO(String Name, Image img) {
         this.Name = Name;
-        this.img = dto;
+        this.img = img;
     }
 
     public String getName() {

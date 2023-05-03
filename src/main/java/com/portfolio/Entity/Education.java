@@ -35,7 +35,7 @@ public class Education implements Serializable {
     @Column(name = "done", columnDefinition = "BIT")
     private boolean done;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "education", cascade = CascadeType.ALL)
     private Image img;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -27,23 +27,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/job")
 public class JobController {
-
+    
     @Autowired
     JobService jobService;
     @Autowired
     UsserService userService;
-
+    
     @GetMapping("/get")
     public ResponseEntity<List<Job>> getDefault() {
         return new ResponseEntity(jobService.findAllByUsserUsername("Heber739"), HttpStatus.OK);
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/get/{id}")
     public ResponseEntity<?> list(@PathVariable("id") String username) {
         return new ResponseEntity<>(jobService.findAllByUsserUsername(username), HttpStatus.OK);
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/create/{user_id}")
     public ResponseEntity<?> create(@PathVariable("user_id") String username, @RequestBody JobDTO jobDto) {
@@ -56,11 +56,11 @@ public class JobController {
         }
         Usser user = userService.findUsser(username);
         Job job = new Job(jobDto.getName(), jobDto.getDescription());
-        jobService.save(job);
         user.addJob(job);
+        userService.saveUsser(user);
         return new ResponseEntity(job, HttpStatus.OK);
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/update/{user_id}/{job_id}")
     public ResponseEntity<Message> update(@PathVariable("user_id") String username, @PathVariable("job_id") int jobId, @RequestBody JobDTO jobDto) {
@@ -78,12 +78,12 @@ public class JobController {
         userService.findUsser(username).addJob(job);
         return new ResponseEntity(job, HttpStatus.OK);
     }
-
+    
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Message> delete(@PathVariable("id") int id) {
         jobService.delete(id);
         return new ResponseEntity(new Message("Experiencia eliminada"), HttpStatus.OK);
     }
-
+    
 }

@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,8 +24,7 @@ public class HardSkill implements Serializable {
     @Column(name = "percentage", columnDefinition = "TINYINT")
     private int percentage;
 
-    @ManyToOne
-    @JoinColumn(name = "tag_name", referencedColumnName = "name", columnDefinition = "VARCHAR(150)")
+    @OneToOne(mappedBy = "skill", fetch = FetchType.EAGER)
     private Tag tag;
 
     @JsonIgnore

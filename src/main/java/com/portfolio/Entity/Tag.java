@@ -7,11 +7,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,8 +30,9 @@ public class Tag implements Serializable {
     private Set<Education> educations = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Set<HardSkill> skills = new HashSet<>();
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "skill_id", referencedColumnName = "id")
+    private HardSkill skill;
 
     public Tag() {
     }
@@ -67,12 +66,12 @@ public class Tag implements Serializable {
         this.img = img;
     }
 
-    public Set<HardSkill> getSkills() {
-        return skills;
+    public HardSkill getSkill() {
+        return skill;
     }
 
-    public void setSkills(Set<HardSkill> skills) {
-        this.skills = skills;
+    public void setSkill(HardSkill skill) {
+        this.skill = skill;
     }
 
 }
