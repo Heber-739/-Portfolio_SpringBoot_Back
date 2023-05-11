@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -35,8 +34,8 @@ public class Education implements Serializable {
     @Column(name = "done", columnDefinition = "BIT")
     private boolean done;
 
-    @OneToOne(mappedBy = "education", cascade = CascadeType.ALL)
-    private Image img;
+    @Column(name = "image", columnDefinition = "MEDIUMTEXT")
+    private String image;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "education_tag", joinColumns = @JoinColumn(name = "education_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_name", referencedColumnName = "name"))
@@ -50,10 +49,11 @@ public class Education implements Serializable {
     public Education() {
     }
 
-    public Education(String name, String link, boolean done) {
+    public Education(String name, String link, boolean done, String image) {
         this.name = name;
         this.link = link;
         this.done = done;
+        this.image = image;
     }
 
     public int getId() {
@@ -88,12 +88,12 @@ public class Education implements Serializable {
         this.done = done;
     }
 
-    public Image getImg() {
-        return img;
+    public String getImage() {
+        return image;
     }
 
-    public void setImg(Image img) {
-        this.img = img;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Usser getUsser() {

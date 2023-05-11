@@ -21,9 +21,8 @@ public class Tag implements Serializable {
     @Column(name = "name", columnDefinition = "VARCHAR(150)", unique = true)
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "img_id", referencedColumnName = "id", columnDefinition = "INT")
-    private Image img;
+    @Column(name = "image", columnDefinition = "MEDIUMTEXT")
+    private String image;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "tags")
@@ -37,9 +36,9 @@ public class Tag implements Serializable {
     public Tag() {
     }
 
-    public Tag(String name, Image img) {
+    public Tag(String name, String img) {
         this.name = name;
-        this.img = img;
+        this.image = img;
     }
 
     public String getName() {
@@ -58,12 +57,12 @@ public class Tag implements Serializable {
         this.educations = educations;
     }
 
-    public Image getImg() {
-        return img;
+    public String getImage() {
+        return image;
     }
 
-    public void setImg(Image img) {
-        this.img = img;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public HardSkill getSkill() {

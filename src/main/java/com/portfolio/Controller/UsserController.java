@@ -3,7 +3,6 @@ package com.portfolio.Controller;
 import com.portfolio.DTO.UsserDTO;
 import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
-import com.portfolio.Service.ImageService;
 import com.portfolio.Service.UsserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ public class UsserController {
 
     @Autowired
     UsserService userService;
-    @Autowired
-    ImageService imageService;
 
     @GetMapping("/get")
     public Usser getDefaultUsser() {
@@ -58,8 +55,7 @@ public class UsserController {
         }
         Usser user = new Usser(usser.getUsername(), usser.getName(),
                 usser.getSurname(), usser.getAge(), usser.getDescription(),
-                usser.getLinkedin(), usser.getGithub());
-        user.setImg(imageService.save(usser.getImg()));
+                usser.getLinkedin(), usser.getGithub(), usser.getImg());
         userService.saveUsser(user);
         return new ResponseEntity(user, HttpStatus.OK);
     }
@@ -87,9 +83,7 @@ public class UsserController {
             }
         }
         Usser user = userService.findUsser(usser.getUsername());
-        if (usser.getImg().getId() < 1) {
-            user.setImg(imageService.save(usser.getImg()));
-        }
+        user.setImage(usser.getImg());
         user.setName(usser.getName());
         user.setSurname(usser.getSurname());
         user.setAge(usser.getAge());

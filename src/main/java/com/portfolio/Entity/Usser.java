@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -39,8 +38,8 @@ public class Usser implements Serializable {
     @Column(name = "github", columnDefinition = "VARCHAR(225)")
     private String github;
 
-    @OneToOne(mappedBy = "usser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Image img;
+    @Column(name = "image", columnDefinition = "MEDIUMTEXT")
+    private String image;
 
     @JsonIgnore
     @OneToMany(mappedBy = "usser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -61,7 +60,7 @@ public class Usser implements Serializable {
     public Usser() {
     }
 
-    public Usser(String username, String name, String surname, int age, String description, String linkedin, String github) {
+    public Usser(String username, String name, String surname, int age, String description, String linkedin, String github, String image) {
         this.username = username;
         this.name = name;
         this.surname = surname;
@@ -69,6 +68,7 @@ public class Usser implements Serializable {
         this.description = description;
         this.linkedin = linkedin;
         this.github = github;
+        this.image = image;
     }
 
     public String getUsername() {
@@ -123,12 +123,12 @@ public class Usser implements Serializable {
         this.github = github;
     }
 
-    public Image getImg() {
-        return img;
+    public String getImage() {
+        return image;
     }
 
-    public void setImg(Image img) {
-        this.img = img;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Set<Education> getEducations() {

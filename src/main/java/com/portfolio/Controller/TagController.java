@@ -5,7 +5,6 @@ import com.portfolio.Entity.Education;
 import com.portfolio.Entity.Tag;
 import com.portfolio.Security.Message;
 import com.portfolio.Service.EducationService;
-import com.portfolio.Service.ImageService;
 import com.portfolio.Service.TagService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,8 +32,6 @@ public class TagController {
     TagService tagService;
     @Autowired
     EducationService edService;
-    @Autowired
-    ImageService imgService;
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/listAll")

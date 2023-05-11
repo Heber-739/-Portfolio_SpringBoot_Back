@@ -1,6 +1,5 @@
 package com.portfolio.DTO;
 
-import com.portfolio.Entity.Image;
 import javax.validation.constraints.NotBlank;
 
 public class EducationDTO {
@@ -13,12 +12,12 @@ public class EducationDTO {
     @NotBlank
     private boolean done;
     @NotBlank
-    private Image img;
+    private String img;
 
     public EducationDTO() {
     }
 
-    public EducationDTO(String name, String link, boolean done, Image img) {
+    public EducationDTO(String name, String link, boolean done, String img) {
         this.name = name;
         this.link = link;
         this.done = done;
@@ -57,11 +56,11 @@ public class EducationDTO {
         this.done = done;
     }
 
-    public Image getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(Image img) {
+    public void setImg(String img) {
         this.img = img;
     }
 

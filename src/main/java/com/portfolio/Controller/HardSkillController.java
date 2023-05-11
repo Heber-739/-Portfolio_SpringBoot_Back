@@ -6,7 +6,6 @@ import com.portfolio.Entity.Tag;
 import com.portfolio.Entity.Usser;
 import com.portfolio.Security.Message;
 import com.portfolio.Service.HardSkillService;
-import com.portfolio.Service.ImageService;
 import com.portfolio.Service.TagService;
 import com.portfolio.Service.UsserService;
 import java.util.List;
@@ -38,8 +37,6 @@ public class HardSkillController {
 
     @Autowired
     TagService tagService;
-    @Autowired
-    ImageService imgService;
 
     @RequestMapping("/get")
     public ResponseEntity<List<HardSkill>> getDefault() {
