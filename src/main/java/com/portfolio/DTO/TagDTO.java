@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 public class TagDTO {
 
     @NotNull
-    private String Name;
+    private String name;
     @NotNull
     private String img;
 
@@ -14,13 +14,13 @@ public class TagDTO {
     public TagDTO() {
     }
 
-    public TagDTO(String Name, String img) {
-        this.Name = Name;
+    public TagDTO(String name, String img) {
+        this.name = name;
         this.img = img;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getImg() {

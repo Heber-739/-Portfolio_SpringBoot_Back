@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = {"https://heberportfolio.web.app", "*"})
 @RestController
-@RequestMapping("/hardskill")
+@RequestMapping("/hardSkill")
 public class HardSkillController {
 
     @Autowired
@@ -52,26 +52,20 @@ public class HardSkillController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/create/{user_id}")
     public ResponseEntity<?> create(@PathVariable("user_id") String username, @RequestBody HardSkillDTO hsDto) {
-        if (StringUtils.isBlank(hsDto.getTagDTO().getName())) {
-            return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
-        }
-        List<String> hss_name = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getTag().getName()).collect(Collectors.toList());
-        if (hss_name.contains(hsDto.getTagDTO().getName())) {
-            return new ResponseEntity(new Message("El usuario ya posee este item"), HttpStatus.BAD_REQUEST);
-        }
+
         Usser user = userService.findUsser(username);
         HardSkill hs = new HardSkill(hsDto.getPercentage());
 
-        if (tagService.existsByName(hsDto.getTagDTO().getName())) {
+        if (tagService.existsById(hsDto.getTagDTO().getName())) {
             Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
             hs.setTag(tag);
         } else {
-            Tag new_tag = new Tag(hsDto.getTagDTO().getName(), hsDto.getTagDTO().getImg());
-            tagService.save(new_tag);
-            hs.setTag(new_tag);
+            Tag newTag = new Tag(hsDto.getTagDTO().getName(), hsDto.getTagDTO().getImg());
+            tagService.save(newTag);
+            hs.setTag(newTag);
         }
-        user.addHardSkill(hs);
-        userService.saveUsser(user);
+        hs.setUsser(user);
+        hsService.save(hs);
         return new ResponseEntity(hs, HttpStatus.OK);
 
     }
@@ -82,12 +76,14 @@ public class HardSkillController {
         if (StringUtils.isBlank(hsDto.getTagDTO().getName())) {
             return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
-        List<String> hss = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getTag().getName()).collect(Collectors.toList());
-        if (hss.contains(hsDto.getTagDTO().getName())) {
+        List<String> existTag = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getTag().getName()).collect(Collectors.toList());
+        if (existTag.contains(hsDto.getTagDTO().getName())) {
             return new ResponseEntity(new Message("El usuario ya posee el skill"), HttpStatus.BAD_REQUEST);
         }
+
         HardSkill hs = hsService.findById(hsDto.getId());
-        if (tagService.existsByName(hsDto.getTagDTO().getName())) {
+
+        if (tagService.existsById(hsDto.getTagDTO().getName())) {
             Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
             hs.setTag(tag);
         } else {
@@ -97,6 +93,7 @@ public class HardSkillController {
         }
         hs.setPercentage(hsDto.getPercentage());
         hsService.save(hs);
+
         return new ResponseEntity(hs, HttpStatus.OK);
 
     }

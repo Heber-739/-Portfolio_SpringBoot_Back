@@ -10,31 +10,31 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class TagService {
-    
+
     @Autowired
     TagRepository tagRepository;
-    
+
     public List<Tag> findAllByEducationsId(int id) {
         return tagRepository.findAllByEducationsId(id);
     }
-    
+
     public List<Tag> getAll() {
         return tagRepository.findAll();
     }
-    
+
     public Tag findByName(String name) {
-        return tagRepository.findByName(name).orElse(null);
+        return tagRepository.findById(name).orElse(null);
     }
-    
-    public boolean existsByName(String name) {
-        return tagRepository.existsByName(name);
+
+    public boolean existsById(String name) {
+        return tagRepository.existsById(name);
     }
-    
+
     public void save(Tag tag) {
         tagRepository.save(tag);
     }
-    
-    public void delete(int id) {
+
+    public void delete(String id) {
         tagRepository.deleteById(id);
     }
 }

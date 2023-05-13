@@ -73,7 +73,7 @@ public class TagController {
         if (StringUtils.isBlank(tagDto.getName())) {
             return new ResponseEntity(new Message("No se admiten campos vacíos"), HttpStatus.BAD_REQUEST);
         }
-        if (tagService.existsByName(tagDto.getName())) {
+        if (tagService.existsById(tagDto.getName())) {
             return new ResponseEntity(new Message("Ya existe este item"), HttpStatus.BAD_REQUEST);
         }
         List<String> tags = edService.findById(tagDto.getEd_id()).getTags().stream().map(t -> t.getName()).collect(Collectors.toList());
@@ -94,7 +94,7 @@ public class TagController {
         if (StringUtils.isBlank(tagDto.getName())) {
             return new ResponseEntity(new Message("No se admiten campos vacíos"), HttpStatus.BAD_REQUEST);
         }
-        if (tagService.existsByName(tagDto.getName()) && name != tagDto.getName()) {
+        if (tagService.existsById(tagDto.getName()) && name != tagDto.getName()) {
             return new ResponseEntity(new Message("Ya existe el item"), HttpStatus.BAD_REQUEST);
         }
         Tag tag = tagService.findByName(name);
@@ -105,7 +105,7 @@ public class TagController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Message> delete(@PathVariable("id") int id) {
+    public ResponseEntity<Message> delete(@PathVariable("id") String id) {
         tagService.delete(id);
         return new ResponseEntity(new Message("Contenido eliminado"), HttpStatus.OK);
     }

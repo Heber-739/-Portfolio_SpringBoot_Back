@@ -2,6 +2,7 @@ package com.portfolio.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,7 +24,8 @@ public class HardSkill implements Serializable {
     @Column(name = "percentage", columnDefinition = "TINYINT")
     private int percentage;
 
-    @OneToOne(mappedBy = "skill", fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "tag_name", referencedColumnName = "name")
     private Tag tag;
 
     @JsonIgnore
