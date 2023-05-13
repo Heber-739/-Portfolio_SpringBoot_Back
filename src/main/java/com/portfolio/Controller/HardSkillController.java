@@ -56,11 +56,11 @@ public class HardSkillController {
         Usser user = userService.findUsser(username);
         HardSkill hs = new HardSkill(hsDto.getPercentage());
 
-        if (tagService.existsById(hsDto.getTagDTO().getName())) {
-            Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
+        if (tagService.existsById(hsDto.getTag().getName())) {
+            Tag tag = tagService.findByName(hsDto.getTag().getName());
             hs.setTag(tag);
         } else {
-            Tag newTag = new Tag(hsDto.getTagDTO().getName(), hsDto.getTagDTO().getImg());
+            Tag newTag = new Tag(hsDto.getTag().getName(), hsDto.getTag().getImage());
             tagService.save(newTag);
             hs.setTag(newTag);
         }
@@ -73,21 +73,21 @@ public class HardSkillController {
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/update/{user_id}")
     public ResponseEntity<?> update(@PathVariable("user_id") String username, @RequestBody HardSkillDTO hsDto) {
-        if (StringUtils.isBlank(hsDto.getTagDTO().getName())) {
+        if (StringUtils.isBlank(hsDto.getTag().getName())) {
             return new ResponseEntity(new Message("No se admiten campos en blanco"), HttpStatus.BAD_REQUEST);
         }
         List<String> existTag = hsService.findAllByUsserUsername(username).stream().map(hs -> hs.getTag().getName()).collect(Collectors.toList());
-        if (existTag.contains(hsDto.getTagDTO().getName())) {
+        if (existTag.contains(hsDto.getTag().getName())) {
             return new ResponseEntity(new Message("El usuario ya posee el skill"), HttpStatus.BAD_REQUEST);
         }
 
         HardSkill hs = hsService.findById(hsDto.getId());
 
-        if (tagService.existsById(hsDto.getTagDTO().getName())) {
-            Tag tag = tagService.findByName(hsDto.getTagDTO().getName());
+        if (tagService.existsById(hsDto.getTag().getName())) {
+            Tag tag = tagService.findByName(hsDto.getTag().getName());
             hs.setTag(tag);
         } else {
-            Tag newTag = new Tag(hsDto.getTagDTO().getName(), hsDto.getTagDTO().getImg());
+            Tag newTag = new Tag(hsDto.getTag().getName(), hsDto.getTag().getImage());
             tagService.save(newTag);
             hs.setTag(newTag);
         }

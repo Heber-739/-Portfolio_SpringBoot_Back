@@ -1,5 +1,6 @@
 package com.portfolio.DTO;
 
+import com.portfolio.Entity.Tag;
 import javax.validation.constraints.NotBlank;
 
 public class HardSkillDTO {
@@ -8,7 +9,7 @@ public class HardSkillDTO {
     @NotBlank
     private int percentage;
     @NotBlank
-    private TagDTO tagDTO;
+    private Tag tag;
 
     public HardSkillDTO() {
     }
@@ -33,12 +34,12 @@ public class HardSkillDTO {
         this.percentage = percentage;
     }
 
-    public TagDTO getTagDTO() {
-        return tagDTO;
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setTagDTO(TagDTO tagDTO) {
-        this.tagDTO = tagDTO;
+    public void setTagDTO(Tag tag) {
+        this.tag = tag;
     }
 
 }

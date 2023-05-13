@@ -42,13 +42,13 @@ public class TagController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/list/{education_id}")
     public ResponseEntity<List<Tag>> listAll(@PathVariable("education_id") int id) {
-        return new ResponseEntity(tagService.findAllByEducationsId(id), HttpStatus.OK);
+        return new ResponseEntity(edService.findById(id).getTags(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/add/{ed_id}/{tag_id}")
     public ResponseEntity<?> add(@PathVariable("ed_id") int ed_id, @PathVariable("tag_id") String tag_name) {
-        List<String> tags = tagService.findAllByEducationsId(ed_id).stream().map(t -> t.getName()).collect(Collectors.toList());
+        List<String> tags = edService.findById(ed_id).getTags().stream().map(t -> t.getName()).collect(Collectors.toList());
         if (tags.contains(tag_name)) {
             return new ResponseEntity(new Message("La educación ya posee el item"), HttpStatus.BAD_REQUEST);
         }

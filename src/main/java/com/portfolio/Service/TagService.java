@@ -14,10 +14,6 @@ public class TagService {
     @Autowired
     TagRepository tagRepository;
 
-    public List<Tag> findAllByEducationsId(int id) {
-        return tagRepository.findAllByEducationsId(id);
-    }
-
     public List<Tag> getAll() {
         return tagRepository.findAll();
     }
