@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -47,7 +46,7 @@ public class Usser implements Serializable {
     private Set<Education> educations = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "ussers", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<HardSkill> hskills = new HashSet<>();
 
     @JsonIgnore
@@ -171,7 +170,6 @@ public class Usser implements Serializable {
 
     public void addHardSkill(HardSkill hs) {
         this.hskills.add(hs);
-        hs.getUssers().add(this);
     }
 
     public void addSoftSkill(SoftSkill ss) {

@@ -19,11 +19,11 @@ public class TagService {
     }
 
     public Tag findByName(String name) {
-        return tagRepository.findById(name).orElse(null);
+        return tagRepository.findByName(name).orElse(null);
     }
 
     public boolean existsById(String name) {
-        return tagRepository.existsById(name);
+        return tagRepository.existsByName(name);
     }
 
     public void save(Tag tag) {

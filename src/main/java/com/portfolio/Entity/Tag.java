@@ -4,14 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -30,8 +27,7 @@ public class Tag implements Serializable {
     private Set<Education> educations = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "tag_hard_skill", joinColumns = @JoinColumn(name = "tag_name", referencedColumnName = "name"), inverseJoinColumns = @JoinColumn(name = "hard_skill", referencedColumnName = "percentage"))
+    @OneToMany(mappedBy = "tag")
     private Set<HardSkill> skills = new HashSet<>();
 
     public Tag() {

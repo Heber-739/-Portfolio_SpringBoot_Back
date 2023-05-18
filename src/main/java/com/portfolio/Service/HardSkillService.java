@@ -15,7 +15,7 @@ public class HardSkillService {
     HardSkillRepository hsR;
 
     public List<HardSkill> findAllByUsserUsername(String username) {
-        return hsR.findAllByUssersUsername(username);
+        return hsR.findAllByUsserUsername(username);
     }
 
     public boolean existsByPercentage(int id) {
