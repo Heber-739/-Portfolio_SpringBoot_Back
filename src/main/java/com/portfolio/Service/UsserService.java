@@ -1,18 +1,18 @@
 package com.portfolio.Service;
 
 import com.portfolio.Entity.Usser;
-import com.portfolio.Repository.UserRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.portfolio.Repository.UsserRepository;
 
 @Service
 @Transactional
 public class UsserService {
 
     @Autowired
-    UserRepository userR;
+    UsserRepository userR;
 
     public List<Usser> getAllUssers() {
         return userR.findAll();
@@ -23,7 +23,7 @@ public class UsserService {
     }
 
     public void deleteUsser(String id) {
-        userR.deleteById(id);
+        userR.deleteByUsername(id);
     }
 
     public Usser findUsser(String username) {

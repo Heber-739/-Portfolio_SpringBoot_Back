@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<Usser, String> {
+public interface UsserRepository extends JpaRepository<Usser, String> {
 
     public boolean existsByLinkedin(String linkedin);
 
@@ -19,5 +19,7 @@ public interface UserRepository extends JpaRepository<Usser, String> {
     public boolean existsByUsername(String username);
 
     public Optional<Usser> findByUsername(String username);
+
+    public void deleteByUsername(String username);
 
 }
